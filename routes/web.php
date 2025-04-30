@@ -13,3 +13,15 @@ Route::get('shop/',function(){
 Route::get('product-details/',function(){
     return view('frontend.product-details');
 });
+
+Route::get('checkout/',function(){
+    return view('frontend.checkout');
+});
+
+Route::get('order-details',function(){
+    return view('frontend.order-details');
+});
+
+Route::get('user-profile',function(){
+    return view('frontend.user-profile');
+});

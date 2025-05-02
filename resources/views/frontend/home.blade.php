@@ -1,85 +1,52 @@
 @extends('frontend.layouts.app')
 
 @section('contents')
-    <section class="">
-        <div class="grid grid-cols-12 gap-4 items-stretch min-h-[600px] max-w-7xl mx-auto">
-            <!-- First Column (8 cols) -->
-            <div class="col-span-12 md:col-span-8 bg-fuchsia-400">
-                <div class="h-full p-4 flex items-center justify-center text-white text-3xl font-bold">
-                    Left Side (Banner)
+    <section class="mt-8">
+        <div class="grid grid-cols-12 gap-4 items-stretch min-h-[400px] max-w-7xl mx-auto">
+            <!-- Left Column with Slider -->
+            <div class="col-span-12 md:col-span-8">
+                <div class="h-full">
+                    <!-- Swiper -->
+                    <div class="swiper h-full rounded-lg overflow-hidden">
+                        <div class="swiper-wrapper">
+                            @foreach ($hero_sliders as $slider)
+                                <img src="{{ storage_url($slider->image) }}" class="swiper-slide bg-cover bg-center">
+                            @endforeach
+                        </div>
+
+                        <!-- Optional controls -->
+                        <div class="swiper-pagination !text-primary-600"></div>
+                        <div class="swiper-button-prev !text-primary-600 !fill-primary-600"></div>
+                        <div class="swiper-button-next !text-primary-600 !fill-primary-600"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Second Column (4 cols) with two stacked items -->
+            <!-- Right Side -->
             <div class="col-span-12 md:col-span-4 flex flex-col gap-4">
-                <div class="flex-1 bg-fuchsia-600 p-4 flex items-center justify-center text-white text-xl font-semibold">
-                    Top Right
-                </div>
-                <div class="flex-1 bg-fuchsia-800 p-4 flex items-center justify-center text-white text-xl font-semibold">
-                    Bottom Right
-                </div>
+                @foreach ($hero_promos as $promo)
+                    <div class="flex-1 bg-cover bg-center rounded-lg p-4 flex items-center justify-center text-white text-xl font-semibold"
+                        style="background-image: url('{{ storage_url($promo->image) }}')">
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
 
     <!-- category -->
     <section class="py-12">
-        <h2 class="text-3xl font-bold text-center mb-10 text-gray-800">Shop by Category</h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 max-w-7xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-10 text-neutral-800">Shop by Category</h2>
 
-            <!-- Category: Electronics -->
-            <div
-                class="bg-gray-100 hover:bg-gray-200 p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition cursor-pointer">
-                <div class="text-indigo-600 text-3xl mb-3">
-                    <i class="fas fa-tv"></i>
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-center gap-6">
+            @foreach ($categories as $category)
+                <div
+                    class="w-[calc(100%/2-1.5rem)] sm:w-[calc(100%/3-1.5rem)] md:w-[calc(100%/4-1.5rem)] lg:w-[calc(100%/6-1.5rem)] bg-neutral-100 hover:bg-neutral-200 p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition cursor-pointer">
+                    <div class="text-primary-400 text-3xl mb-3">
+                        <i class="{{ $category->icon }}"></i>
+                    </div>
+                    <h3 class="text-sm font-semibold text-neutral-700">{{ ucfirst($category->name) }}</h3>
                 </div>
-                <h3 class="text-sm font-semibold text-gray-700">Electronics</h3>
-            </div>
-
-            <!-- Category: Fashion -->
-            <div
-                class="bg-gray-100 hover:bg-gray-200 p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition cursor-pointer">
-                <div class="text-pink-500 text-3xl mb-3">
-                    <i class="fas fa-tshirt"></i>
-                </div>
-                <h3 class="text-sm font-semibold text-gray-700">Fashion</h3>
-            </div>
-
-            <!-- Category: Home Appliances -->
-            <div
-                class="bg-gray-100 hover:bg-gray-200 p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition cursor-pointer">
-                <div class="text-green-500 text-3xl mb-3">
-                    <i class="fas fa-blender"></i>
-                </div>
-                <h3 class="text-sm font-semibold text-gray-700">Home Appliances</h3>
-            </div>
-
-            <!-- Category: Beauty -->
-            <div
-                class="bg-gray-100 hover:bg-gray-200 p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition cursor-pointer">
-                <div class="text-purple-500 text-3xl mb-3">
-                    <i class="fas fa-air-freshener"></i>
-                </div>
-                <h3 class="text-sm font-semibold text-gray-700">Beauty</h3>
-            </div>
-
-            <!-- Category: Sports -->
-            <div
-                class="bg-gray-100 hover:bg-gray-200 p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition cursor-pointer">
-                <div class="text-blue-500 text-3xl mb-3">
-                    <i class="fas fa-basketball-ball"></i>
-                </div>
-                <h3 class="text-sm font-semibold text-gray-700">Sports</h3>
-            </div>
-
-            <!-- Category: Toys -->
-            <div
-                class="bg-gray-100 hover:bg-gray-200 p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition cursor-pointer">
-                <div class="text-yellow-500 text-3xl mb-3">
-                    <i class="fas fa-puzzle-piece"></i>
-                </div>
-                <h3 class="text-sm font-semibold text-gray-700">Toys</h3>
-            </div>
+            @endforeach
         </div>
     </section>
 
@@ -87,19 +54,19 @@
     <section class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4">
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">Featured Products</h2>
+                <h2 class="text-3xl font-bold text-neutral-800">Featured Products</h2>
                 <div class="slider-controls flex items-center gap-4">
                     <button id="prev-slide"
-                        class="p-2 rounded-full bg-white shadow hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none"
+                        class="p-2 rounded-full bg-white shadow hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-neutral-700" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
-                    <span id="pagination-counter" class="text-sm font-medium text-gray-600">1 / 20</span>
+                    <span id="pagination-counter" class="text-sm font-medium text-neutral-600">1 / 20</span>
                     <button id="next-slide"
-                        class="p-2 rounded-full bg-white shadow hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none"
+                        class="p-2 rounded-full bg-white shadow hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-neutral-700" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
@@ -160,8 +127,9 @@
                                 </div>
                                 <div class="p-6 flex-grow flex flex-col justify-between">
                                     <div>
-                                        <h3 class="text-xl font-semibold text-gray-800">{{ $product['name'] }}</h3>
-                                        <p class="mt-2 text-gray-600 text-sm">High-quality product with premium features</p>
+                                        <h3 class="text-xl font-semibold text-neutral-800">{{ $product['name'] }}</h3>
+                                        <p class="mt-2 text-neutral-600 text-sm">High-quality product with premium features
+                                        </p>
                                     </div>
                                     <div class="mt-4">
                                         <span
@@ -209,7 +177,7 @@
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <a href="#"
-                            class="inline-block bg-white text-primary-700 hover:bg-gray-100 font-semibold px-6 py-3 rounded-lg transition-colors duration-300 text-center">
+                            class="inline-block bg-white text-primary-700 hover:bg-neutral-100 font-semibold px-6 py-3 rounded-lg transition-colors duration-300 text-center">
                             Shop Now
                         </a>
                         <a href="#"
@@ -264,7 +232,7 @@
                     <h3 class="text-2xl font-bold mb-2">New Arrivals</h3>
                     <p class="mb-4 opacity-90">Check out our latest products</p>
                     <a href="#"
-                        class="inline-block bg-white text-indigo-700 hover:bg-gray-100 font-medium px-4 py-2 rounded-lg transition-colors duration-300">
+                        class="inline-block bg-white text-indigo-700 hover:bg-neutral-100 font-medium px-4 py-2 rounded-lg transition-colors duration-300">
                         Explore
                     </a>
                 </div>
@@ -276,7 +244,7 @@
                     <h3 class="text-2xl font-bold mb-2">Free Shipping</h3>
                     <p class="mb-4 opacity-90">On all orders over $50</p>
                     <a href="#"
-                        class="inline-block bg-white text-orange-600 hover:bg-gray-100 font-medium px-4 py-2 rounded-lg transition-colors duration-300">
+                        class="inline-block bg-white text-orange-600 hover:bg-neutral-100 font-medium px-4 py-2 rounded-lg transition-colors duration-300">
                         Learn More
                     </a>
                 </div>
@@ -289,7 +257,7 @@
         <!-- Electronics Category -->
         <div id="electronics" class="mb-16">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+                <h2 class="text-2xl font-bold text-neutral-900 flex items-center">
                     <i class="fas fa-laptop-code mr-2 text-primary-600"></i>
                     Electronics
                 </h2>
@@ -309,14 +277,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Wireless Earbuds</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wireless Earbuds</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
-                            <span class="text-gray-500 ml-1">(4.5)</span>
+                            <span class="text-neutral-500 ml-1">(4.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$59.99</span>
@@ -337,14 +305,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Smart Watch</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Smart Watch</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$129.99</span>
@@ -362,14 +330,14 @@
                             alt="Bluetooth Speaker" class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Bluetooth Speaker</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Bluetooth Speaker</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
-                            <span class="text-gray-500 ml-1">(5.0)</span>
+                            <span class="text-neutral-500 ml-1">(5.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$79.99</span>
@@ -390,14 +358,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Wireless Charger</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wireless Charger</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(3.5)</span>
+                            <span class="text-neutral-500 ml-1">(3.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$39.99</span>
@@ -415,14 +383,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">10" Tablet</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">10" Tablet</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$199.99</span>
@@ -442,14 +410,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Wireless Earbuds</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wireless Earbuds</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
-                            <span class="text-gray-500 ml-1">(4.5)</span>
+                            <span class="text-neutral-500 ml-1">(4.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$59.99</span>
@@ -470,14 +438,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Smart Watch</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Smart Watch</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$129.99</span>
@@ -495,14 +463,14 @@
                             alt="Bluetooth Speaker" class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Bluetooth Speaker</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Bluetooth Speaker</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
-                            <span class="text-gray-500 ml-1">(5.0)</span>
+                            <span class="text-neutral-500 ml-1">(5.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$79.99</span>
@@ -523,14 +491,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Wireless Charger</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wireless Charger</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(3.5)</span>
+                            <span class="text-neutral-500 ml-1">(3.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$39.99</span>
@@ -548,14 +516,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">10" Tablet</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">10" Tablet</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$199.99</span>
@@ -571,7 +539,7 @@
         <!-- Fashion Category -->
         <div id="fashion" class="mb-16">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+                <h2 class="text-2xl font-bold text-neutral-900 flex items-center">
                     <i class="fas fa-tshirt mr-2 text-primary-600"></i>
                     Fashion
                 </h2>
@@ -591,14 +559,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Men's Jacket</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Men's Jacket</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$89.99</span>
@@ -616,14 +584,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Women's Dress</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Women's Dress</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
-                            <span class="text-gray-500 ml-1">(4.5)</span>
+                            <span class="text-neutral-500 ml-1">(4.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$69.99</span>
@@ -644,14 +612,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Sneakers</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Sneakers</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
-                            <span class="text-gray-500 ml-1">(5.0)</span>
+                            <span class="text-neutral-500 ml-1">(5.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$119.99</span>
@@ -669,14 +637,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Backpack</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Backpack</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$49.99</span>
@@ -697,14 +665,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Luxury Watch</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Luxury Watch</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
-                            <span class="text-gray-500 ml-1">(4.5)</span>
+                            <span class="text-neutral-500 ml-1">(4.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$199.99</span>
@@ -724,14 +692,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Men's Jacket</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Men's Jacket</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$89.99</span>
@@ -749,14 +717,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Women's Dress</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Women's Dress</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
-                            <span class="text-gray-500 ml-1">(4.5)</span>
+                            <span class="text-neutral-500 ml-1">(4.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$69.99</span>
@@ -777,14 +745,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Sneakers</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Sneakers</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
-                            <span class="text-gray-500 ml-1">(5.0)</span>
+                            <span class="text-neutral-500 ml-1">(5.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$119.99</span>
@@ -802,14 +770,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Backpack</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Backpack</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$49.99</span>
@@ -830,14 +798,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Luxury Watch</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Luxury Watch</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
-                            <span class="text-gray-500 ml-1">(4.5)</span>
+                            <span class="text-neutral-500 ml-1">(4.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$199.99</span>
@@ -853,7 +821,7 @@
         <!-- Home Decor Category -->
         <div id="home-decor" class="mb-16">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+                <h2 class="text-2xl font-bold text-neutral-900 flex items-center">
                     <i class="fas fa-couch mr-2 text-primary-600"></i>
                     Home Decor
                 </h2>
@@ -870,14 +838,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Table Lamp</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Table Lamp</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$59.99</span>
@@ -898,14 +866,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Wall Art</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wall Art</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
-                            <span class="text-gray-500 ml-1">(4.5)</span>
+                            <span class="text-neutral-500 ml-1">(4.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$79.99</span>
@@ -923,14 +891,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Throw Pillows (Set of 2)</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Throw Pillows (Set of 2)</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$39.99</span>
@@ -951,14 +919,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Ceramic Vase</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Ceramic Vase</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
-                            <span class="text-gray-500 ml-1">(5.0)</span>
+                            <span class="text-neutral-500 ml-1">(5.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$49.99</span>
@@ -976,14 +944,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Area Rug</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Area Rug</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(3.5)</span>
+                            <span class="text-neutral-500 ml-1">(3.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$129.99</span>
@@ -1000,14 +968,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Table Lamp</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Table Lamp</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$59.99</span>
@@ -1028,14 +996,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Wall Art</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wall Art</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
-                            <span class="text-gray-500 ml-1">(4.5)</span>
+                            <span class="text-neutral-500 ml-1">(4.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$79.99</span>
@@ -1053,14 +1021,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Throw Pillows (Set of 2)</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Throw Pillows (Set of 2)</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(4.0)</span>
+                            <span class="text-neutral-500 ml-1">(4.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$39.99</span>
@@ -1081,14 +1049,14 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Ceramic Vase</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Ceramic Vase</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
-                            <span class="text-gray-500 ml-1">(5.0)</span>
+                            <span class="text-neutral-500 ml-1">(5.0)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$49.99</span>
@@ -1106,14 +1074,14 @@
                             class="w-full h-48 object-cover">
                     </div>
                     <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-1">Area Rug</h3>
+                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Area Rug</h3>
                         <div class="flex text-yellow-400 text-xs mb-1">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
                             <i class="far fa-star"></i>
-                            <span class="text-gray-500 ml-1">(3.5)</span>
+                            <span class="text-neutral-500 ml-1">(3.5)</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-primary-600 font-bold">$129.99</span>
@@ -1160,7 +1128,7 @@
                     <p class="text-white text-sm md:text-base mb-4 max-w-xs drop-shadow-sm">{{ $banner['description'] }}
                     </p>
                     <a href="#"
-                        class="bg-white text-primary-700 hover:bg-gray-100 px-4 py-2 rounded-lg text-sm font-medium inline-block w-max transition">
+                        class="bg-white text-primary-700 hover:bg-neutral-100 px-4 py-2 rounded-lg text-sm font-medium inline-block w-max transition">
                         Shop Now
                     </a>
                 </div>
@@ -1171,21 +1139,21 @@
     <!-- Our Brand Partners -->
     <section class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-gray-800 text-center mb-10">Our Brand Partners</h2>
+            <h2 class="text-3xl font-bold text-neutral-800 text-center mb-10">Our Brand Partners</h2>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-center">
                 <img src="https://placehold.co/140x80?text=Brand+1" alt="Brand 1"
-                    class="mx-auto grayscale hover:grayscale-0 transition">
+                    class="mx-auto neutralscale hover:neutralscale-0 transition">
                 <img src="https://placehold.co/140x80?text=Brand+2" alt="Brand 2"
-                    class="mx-auto grayscale hover:grayscale-0 transition">
+                    class="mx-auto neutralscale hover:neutralscale-0 transition">
                 <img src="https://placehold.co/140x80?text=Brand+3" alt="Brand 3"
-                    class="mx-auto grayscale hover:grayscale-0 transition">
+                    class="mx-auto neutralscale hover:neutralscale-0 transition">
                 <img src="https://placehold.co/140x80?text=Brand+4" alt="Brand 4"
-                    class="mx-auto grayscale hover:grayscale-0 transition">
+                    class="mx-auto neutralscale hover:neutralscale-0 transition">
                 <img src="https://placehold.co/140x80?text=Brand+5" alt="Brand 5"
-                    class="mx-auto grayscale hover:grayscale-0 transition">
+                    class="mx-auto neutralscale hover:neutralscale-0 transition">
                 <img src="https://placehold.co/140x80?text=Brand+6" alt="Brand 6"
-                    class="mx-auto grayscale hover:grayscale-0 transition">
+                    class="mx-auto neutralscale hover:neutralscale-0 transition">
             </div>
         </div>
     </section>
@@ -1193,11 +1161,11 @@
     <!-- Newsletter Signup -->
     <section class="bg-primary-100 rounded-xl p-8 mb-16 max-w-7xl mx-auto">
         <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Subscribe to Our Newsletter</h2>
-            <p class="text-gray-600 mb-6">Stay updated with our latest products and exclusive offers.</p>
+            <h2 class="text-2xl font-bold text-neutral-900 mb-2">Subscribe to Our Newsletter</h2>
+            <p class="text-neutral-600 mb-6">Stay updated with our latest products and exclusive offers.</p>
             <form class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
                 <input type="email" placeholder="Your email address"
-                    class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    class="flex-grow px-4 py-2 rounded-lg border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary-500">
                 <button type="submit"
                     class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
                     Subscribe

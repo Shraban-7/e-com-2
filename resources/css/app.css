@@ -26,6 +26,48 @@
     --color-primary-700: #0369a1;
     --color-primary-800: #075985;
     --color-primary-900: #0c4a6e;
+
+    /* Primary - Vibrant & friendly orange */
+        --color-primary-50: #fff8f1;
+        --color-primary-100: #ffeede;
+        --color-primary-200: #ffd7b8;
+        --color-primary-300: #ffb980;
+        --color-primary-400: #ff934d;
+        --color-primary-500: #ff6a00;
+        /* CTA / Buy Now / Main Buttons */
+        --color-primary-600: #e65f00;
+        --color-primary-700: #cc5200;
+        --color-primary-800: #b34700;
+        --color-primary-900: #8c3a00;
+
+        /* Neutral - Soft, modern grayscale for layout and text */
+        --color-neutral-50: #ffffff;
+        --color-neutral-100: #f9f9f9;
+        --color-neutral-200: #f1f1f1;
+        --color-neutral-300: #e1e1e1;
+        --color-neutral-400: #c4c4c4;
+        --color-neutral-500: #9e9e9e;
+        --color-neutral-600: #6e6e6e;
+        --color-neutral-700: #4a4a4a;
+        --color-neutral-800: #2a2a2a;
+        --color-neutral-900: #121212;
+
+        /* Accent - Friendly trust-building green and calming blue */
+        --color-accent-green: #22c55e;
+        /* e.g. success or trust signals */
+        --color-accent-blue: #3b82f6;
+        /* e.g. secondary CTA or support */
+        --color-warning: #facc15;
+        /* e.g. low stock alert */
+        --color-error: #ef4444;
+}
+
+.swiper-pagination-bullet {
+    background-color: var(--color-primary-500)!important;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: var(--color-primary-600) !important;
 }
 
 

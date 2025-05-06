@@ -253,7 +253,7 @@
     </section>
 
     <!-- category wise products -->
-    <section class="py-12 max-w-7xl mx-auto">
+    <section class="py-8 max-w-7xl mx-auto">
         <!-- Electronics Category -->
         <div id="electronics" class="mb-16">
             <div class="flex items-center justify-between mb-6">
@@ -1095,65 +1095,27 @@
         </div>
     </section>
 
-    <!-- Category Banners -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        @php
-            $banners = [
-                [
-                    'id' => 'beauty',
-                    'title' => 'Beauty & Personal Care',
-                    'description' => 'Discover premium skincare, makeup, and personal care products.',
-                    'image' => 'https://placehold.co/800x400/e2e8f0/1e293b?text=Beauty+%26+Personal+Care',
-                ],
-                [
-                    'id' => 'sports',
-                    'title' => 'Sports & Outdoors',
-                    'description' => 'Gear up for your next adventure with our quality sports equipment.',
-                    'image' => 'https://placehold.co/800x400/e2e8f0/1e293b?text=Sports+%26+Outdoors',
-                ],
-            ];
-        @endphp
-
-        @foreach ($banners as $banner)
-            <div id="{{ $banner['id'] }}"
-                class="relative group rounded-2xl overflow-hidden shadow-xl h-64 transition-transform duration-300 hover:scale-105">
-
-                <img src="{{ $banner['image'] }}" alt="{{ $banner['title'] }}"
-                    class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-90" />
-
-                <div
-                    class="absolute inset-0 bg-gradient-to-br from-primary-900/70 to-primary-700/50 flex flex-col justify-center px-8 backdrop-blur-sm">
-                    <h3 class="text-white text-2xl md:text-3xl font-bold mb-2 drop-shadow-lg">{{ $banner['title'] }}</h3>
-                    <p class="text-white text-sm md:text-base mb-4 max-w-xs drop-shadow-sm">{{ $banner['description'] }}
-                    </p>
-                    <a href="#"
-                        class="bg-white text-primary-700 hover:bg-neutral-100 px-4 py-2 rounded-lg text-sm font-medium inline-block w-max transition">
-                        Shop Now
-                    </a>
-                </div>
-            </div>
-        @endforeach
-    </section>
-
     <!-- Our Brand Partners -->
-    <section class="py-16">
+    <section class="pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-neutral-800 text-center mb-10">Our Brand Partners</h2>
+            <!-- Header: Title + View All Link -->
+            <h2 class="text-3xl font-bold text-neutral-800 text-center">Most Popular Brands</h2>
+            <div class="flex flex-col md:flex-row justify-end items-center mb-10">
+                <a href="/brands"
+                    class="mt-4 md:mt-0 text-primary-600 hover:underline flex items-center gap-1 text-sm font-medium">
+                    View All Brands
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-center">
-                <img src="https://placehold.co/140x80?text=Brand+1" alt="Brand 1"
-                    class="mx-auto neutralscale hover:neutralscale-0 transition">
-                <img src="https://placehold.co/140x80?text=Brand+2" alt="Brand 2"
-                    class="mx-auto neutralscale hover:neutralscale-0 transition">
-                <img src="https://placehold.co/140x80?text=Brand+3" alt="Brand 3"
-                    class="mx-auto neutralscale hover:neutralscale-0 transition">
-                <img src="https://placehold.co/140x80?text=Brand+4" alt="Brand 4"
-                    class="mx-auto neutralscale hover:neutralscale-0 transition">
-                <img src="https://placehold.co/140x80?text=Brand+5" alt="Brand 5"
-                    class="mx-auto neutralscale hover:neutralscale-0 transition">
-                <img src="https://placehold.co/140x80?text=Brand+6" alt="Brand 6"
-                    class="mx-auto neutralscale hover:neutralscale-0 transition">
+            <!-- Brand Logos -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
+                @foreach ($brands as $brand)
+                    <img src="{{ storage_url($brand->image) }}" alt="{{ $brand->name }}" class="mx-auto transition-transform hover:scale-105" />
+                @endforeach
             </div>
         </div>
     </section>

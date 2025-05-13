@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Models\product;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -63,5 +64,13 @@ if (!function_exists('nav_categories')) {
     {
         return Category::with('subcategories')
         ->where('position', 1)->take(8)->get();
+    }
+}
+
+if (!function_exists('featuredProducts')) {
+    function featuredProducts()
+    {
+        $featureProducts =product::where('is_featured',true)->take(20)->latest()->get();
+        return $featureProducts;
     }
 }

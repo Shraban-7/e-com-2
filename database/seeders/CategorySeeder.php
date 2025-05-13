@@ -19,11 +19,13 @@ class CategorySeeder extends Seeder
                 'name' => 'Electronics',
                 'icon' => 'fas fa-tv',
                 'subcategories' => ['Mobile Phones', 'Laptops', 'Cameras'],
+                'is_home' => 1
             ],
             [
                 'name' => 'Fashion',
                 'icon' => 'fas fa-tshirt',
                 'subcategories' => ['Men', 'Women', 'Accessories'],
+                'is_home' => 1
             ],
             [
                 'name' => 'Home & Kitchen',
@@ -44,6 +46,7 @@ class CategorySeeder extends Seeder
                 'name' => 'Sports & Outdoors',
                 'icon' => 'fas fa-football-ball',
                 'subcategories' => ['Fitness', 'Camping', 'Cycling'],
+                'is_home' => 1
             ],
             [
                 'name' => 'Toys & Games',
@@ -77,6 +80,7 @@ class CategorySeeder extends Seeder
                 'image' => strtolower(Str::slug($cat['name'])) . '.jpg',
                 'is_active' => true,
                 'position' => 1,
+                'is_home' => $cat['is_home'] ?? false,
             ]);
 
             foreach ($cat['subcategories'] as $sub) {

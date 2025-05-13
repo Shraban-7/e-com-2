@@ -55,94 +55,45 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-3xl font-bold text-neutral-800">Featured Products</h2>
-                <div class="slider-controls flex items-center gap-4">
-                    <button id="prev-slide"
-                        class="p-2 rounded-full bg-white shadow hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-neutral-700" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <span id="pagination-counter" class="text-sm font-medium text-neutral-600">1 / 20</span>
-                    <button id="next-slide"
-                        class="p-2 rounded-full bg-white shadow hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-neutral-700" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-                </div>
             </div>
 
-            <!-- Swiper container -->
-            <div class="swiper-container product-slider">
-                <div class="swiper-wrapper mb-12 mt-8">
-                    @php
-                        $colors = [
-                            '#4F46E5',
-                            '#10B981',
-                            '#F59E0B',
-                            '#EF4444',
-                            '#8B5CF6',
-                            '#EC4899',
-                            '#14B8A6',
-                            '#F97316',
-                        ];
-                        $products = [
-                            ['name' => 'Premium Headphones', 'price' => 249.99],
-                            ['name' => 'Wireless Speaker', 'price' => 129.99],
-                            ['name' => 'Smart Watch', 'price' => 199.99],
-                            ['name' => 'Fitness Tracker', 'price' => 89.99],
-                            ['name' => 'Bluetooth Earbuds', 'price' => 159.99],
-                            ['name' => 'Laptop Stand', 'price' => 49.99],
-                            ['name' => 'Phone Gimbal', 'price' => 119.99],
-                            ['name' => 'Desk Lamp', 'price' => 69.99],
-                            ['name' => 'Mechanical Keyboard', 'price' => 179.99],
-                            ['name' => 'Wireless Mouse', 'price' => 59.99],
-                            ['name' => 'USB-C Hub', 'price' => 39.99],
-                            ['name' => 'External SSD', 'price' => 129.99],
-                            ['name' => 'Portable Power Bank', 'price' => 49.99],
-                            ['name' => 'Noise Cancelling Earbuds', 'price' => 179.99],
-                            ['name' => 'Smart Light Bulb', 'price' => 29.99],
-                            ['name' => 'Bluetooth Speaker', 'price' => 89.99],
-                            ['name' => 'Wireless Charger', 'price' => 44.99],
-                            ['name' => 'Gaming Controller', 'price' => 69.99],
-                            ['name' => 'Camera Drone', 'price' => 299.99],
-                            ['name' => 'Smart Thermostat', 'price' => 149.99],
-                        ];
-                    @endphp
+            <!-- Featured Products Swiper -->
+            <div class="swiper-container featured-products-swiper">
+                <div class="swiper-wrapper">
+                    @foreach (featuredProducts()->take(6) as $product)
+                    <div class="swiper-slide">
+                        <div class="product-card shadow-sm hover:shadow-md transition-shadow duration-300 rounded-lg overflow-hidden bg-white">
+                            <div class="relative overflow-hidden">
+                                <!-- Product image with zoom effect -->
+                                <img src="{{ storage_url($product->thumbnail) ?? '/api/placeholder/300/300' }}"
+                                    alt="{{ $product['name'] }}"
+                                    class="w-full h-48 object-cover transition-transform duration-300 ease-in-out transform hover:scale-105" />
+                            </div>
 
-                    @foreach ($products as $index => $product)
-                        <div class="swiper-slide px-2 sm:px-4">
-                            <div
-                                class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col">
-                                <div class="w-full h-48 relative flex items-center justify-center"
-                                    style="background: linear-gradient(135deg, {{ $colors[$index % 8] }} 0%, {{ $colors[($index + 1) % 8] }} 100%);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white opacity-75"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                            d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                                    </svg>
+                            <div class="p-4">
+                                <!-- Product name -->
+                                <h3 class="text-lg font-medium text-gray-900 mb-2 line-clamp-1 leading-snug">{{ $product->name }}</h3>
 
-                                </div>
-                                <div class="p-6 flex-grow flex flex-col justify-between">
-                                    <div>
-                                        <h3 class="text-xl font-semibold text-neutral-800">{{ $product['name'] }}</h3>
-                                        <p class="mt-2 text-neutral-600 text-sm">High-quality product with premium features
-                                        </p>
-                                    </div>
-                                    <div class="mt-4">
-                                        <span
-                                            class="text-lg font-bold text-indigo-600">${{ number_format($product['price'], 2) }}</span>
-                                    </div>
+                                <!-- Product price & button -->
+                                <div class="flex justify-between items-center">
+                                    <p class="text-xl font-bold text-gray-900">
+                                        {{ money($product->selling_price, 2) }}</p>
+
+                                    <a href="#"
+                                        class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
+                                        Buy Now
+                                    </a>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
                     @endforeach
                 </div>
 
-                <!-- Bottom Navigation Buttons with Transition -->
-                <div class="swiper-pagination bottom-buttons flex justify-center"></div>
+                <!-- Add navigation buttons -->
+                <div class="swiper-button-next text-gray-900"></div>
+                <div class="swiper-button-prev text-gray-900"></div>
             </div>
         </div>
     </section>
@@ -254,846 +205,68 @@
 
     <!-- category wise products -->
     <section class="py-8 max-w-7xl mx-auto">
-        <!-- Electronics Category -->
-        <div id="electronics" class="mb-16">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-neutral-900 flex items-center">
-                    <i class="fas fa-laptop-code mr-2 text-primary-600"></i>
-                    Electronics
-                </h2>
-                <a href="#" class="text-primary-600 hover:text-primary-800 font-medium flex items-center">
-                    View All <i class="fas fa-arrow-right ml-1"></i>
-                </a>
-            </div>
+        @foreach ($homeCategory as $category)
+            @if ($category->products->count())
+                <div id="{{ Str::slug($category->name) }}" class="mb-16">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-neutral-900 flex items-center">
+                            <i class="fas fa-laptop-code mr-2 text-primary-600"></i>
+                            {{ $category->name }}
+                        </h2>
+                        <a href="#" class="text-primary-600 hover:text-primary-800 font-medium flex items-center">
+                            View All <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                <!-- Product Card 1 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Wireless+Earbuds" alt="Wireless Earbuds"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            20% OFF
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wireless Earbuds</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="text-neutral-500 ml-1">(4.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$59.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Smart+Watch" alt="Smart Watch"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            NEW
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Smart Watch</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$129.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                        @foreach ($category->products as $product)
+                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                                <div class="relative">
+                                    <img src="{{ storage_url($product->thumbnail) }}" alt="{{ $product->name }}"
+                                        class="w-full h-48 object-cover transition-transform duration-300 ease-in-out transform hover:scale-105">
+                                    @if ($product->badge)
+                                        <div
+                                            class="absolute top-2 right-2 bg-{{ $product->badge_color ?? 'blue' }}-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                            {{ strtoupper($product->badge) }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="text-sm font-semibold text-neutral-900 mb-1 line-clamp-1 leading-snug">{{ $product->name }}</h3>
+                                    <div class="flex text-yellow-400 text-xs mb-1">
+                                        @php
+                                            $rating = $product->rating ?? 4;
+                                            $fullStars = floor($rating);
+                                            $halfStar = $rating - $fullStars >= 0.5;
+                                        @endphp
+                                        @for ($i = 0; $i < $fullStars; $i++)
+                                            <i class="fas fa-star"></i>
+                                        @endfor
+                                        @if ($halfStar)
+                                            <i class="fas fa-star-half-alt"></i>
+                                        @endif
+                                        @for ($i = $fullStars + $halfStar; $i < 5; $i++)
+                                            <i class="far fa-star"></i>
+                                        @endfor
+                                        <span class="text-neutral-500 ml-1">({{ number_format($rating, 1) }})</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span
+                                            class="text-primary-600 font-bold">{{ money($product->selling_price) }}</span>
+                                        <button
+                                            class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-
-                <!-- Product Card 3 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Bluetooth+Speaker"
-                            alt="Bluetooth Speaker" class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Bluetooth Speaker</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(5.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$79.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Wireless+Charger" alt="Wireless Charger"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            POPULAR
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wireless Charger</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(3.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$39.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Tablet" alt="Tablet"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">10" Tablet</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$199.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product Card 1 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Wireless+Earbuds" alt="Wireless Earbuds"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            20% OFF
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wireless Earbuds</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="text-neutral-500 ml-1">(4.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$59.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Smart+Watch" alt="Smart Watch"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            NEW
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Smart Watch</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$129.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Bluetooth+Speaker"
-                            alt="Bluetooth Speaker" class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Bluetooth Speaker</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(5.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$79.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Wireless+Charger" alt="Wireless Charger"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            POPULAR
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wireless Charger</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(3.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$39.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Tablet" alt="Tablet"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">10" Tablet</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$199.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Fashion Category -->
-        <div id="fashion" class="mb-16">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-neutral-900 flex items-center">
-                    <i class="fas fa-tshirt mr-2 text-primary-600"></i>
-                    Fashion
-                </h2>
-                <a href="#" class="text-primary-600 hover:text-primary-800 font-medium flex items-center">
-                    View All <i class="fas fa-arrow-right ml-1"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                <!-- Product Card 1 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Men's+Jacket" alt="Men's Jacket"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            30% OFF
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Men's Jacket</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$89.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Women's+Dress" alt="Women's Dress"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Women's Dress</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="text-neutral-500 ml-1">(4.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$69.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Sneakers" alt="Sneakers"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            NEW
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Sneakers</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(5.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$119.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Backpack" alt="Backpack"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Backpack</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$49.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Watch" alt="Watch"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            POPULAR
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Luxury Watch</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="text-neutral-500 ml-1">(4.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$199.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product Card 1 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Men's+Jacket" alt="Men's Jacket"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            30% OFF
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Men's Jacket</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$89.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Women's+Dress" alt="Women's Dress"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Women's Dress</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="text-neutral-500 ml-1">(4.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$69.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Sneakers" alt="Sneakers"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            NEW
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Sneakers</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(5.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$119.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Backpack" alt="Backpack"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Backpack</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$49.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Watch" alt="Watch"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            POPULAR
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Luxury Watch</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="text-neutral-500 ml-1">(4.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$199.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Home Decor Category -->
-        <div id="home-decor" class="mb-16">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-neutral-900 flex items-center">
-                    <i class="fas fa-couch mr-2 text-primary-600"></i>
-                    Home Decor
-                </h2>
-                <a href="#" class="text-primary-600 hover:text-primary-800 font-medium flex items-center">
-                    View All <i class="fas fa-arrow-right ml-1"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                <!-- Product Card 1 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Table+Lamp" alt="Table Lamp"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Table Lamp</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$59.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Wall+Art" alt="Wall Art"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            15% OFF
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wall Art</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="text-neutral-500 ml-1">(4.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$79.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Throw+Pillows" alt="Throw Pillows"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Throw Pillows (Set of 2)</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$39.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Vase" alt="Vase"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            NEW
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Ceramic Vase</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(5.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$49.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Area+Rug" alt="Area Rug"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Area Rug</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(3.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$129.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product Card 1 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Table+Lamp" alt="Table Lamp"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Table Lamp</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$59.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Wall+Art" alt="Wall Art"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            15% OFF
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Wall Art</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="text-neutral-500 ml-1">(4.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$79.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Throw+Pillows" alt="Throw Pillows"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Throw Pillows (Set of 2)</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(4.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$39.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Vase" alt="Vase"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            NEW
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Ceramic Vase</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(5.0)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$49.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="relative">
-                        <img src="https://placehold.co/300x300/e2e8f0/1e293b?text=Area+Rug" alt="Area Rug"
-                            class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-neutral-900 mb-1">Area Rug</h3>
-                        <div class="flex text-yellow-400 text-xs mb-1">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <span class="text-neutral-500 ml-1">(3.5)</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-primary-600 font-bold">$129.99</span>
-                            <button class="text-xs bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
     </section>
+
 
     <!-- Our Brand Partners -->
     <section class="pb-12">
@@ -1114,7 +287,8 @@
             <!-- Brand Logos -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
                 @foreach ($brands as $brand)
-                    <img src="{{ storage_url($brand->image) }}" alt="{{ $brand->name }}" class="mx-auto transition-transform hover:scale-105" />
+                    <img src="{{ storage_url($brand->image) }}" alt="{{ $brand->name }}"
+                        class="mx-auto transition-transform hover:scale-105" />
                 @endforeach
             </div>
         </div>

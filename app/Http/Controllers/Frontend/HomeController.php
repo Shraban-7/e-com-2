@@ -17,7 +17,10 @@ class HomeController extends Controller
         $data['hero_sliders'] = Hero::slider()->get();
         $data['hero_promos'] = Hero::promo()->get();
         $data['brands'] = Brand::latest()->take(6)->get();
+        $data['homeCategory'] = Category::where('is_home', 1)->with(['products' => function ($q) {
+            $q->limit(12);
+        }])->get();
 
-        return view('frontend.home',$data);
+        return view('frontend.\home',$data);
     }
 }

@@ -11,8 +11,10 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-    <!-- icons -->
+    <!-- jQuery -->
+    <script src="{{ asset('libs/jquery/jquery-3.7.1.min.js') }}"></script>
 
+    <!-- icons -->
     <link rel="stylesheet" href="{{ asset('frontend/libs/frontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/libs/frontawesome/css/frontawesome.min.css') }}">
 
@@ -21,6 +23,7 @@
 
     <!-- Include Swiper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

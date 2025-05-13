@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('icon')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->unsignedInteger('position')->default(0);
+            $table->integer('position')->default(0);
+            $table->boolean('is_home')->default(0);
             $table->json('meta')->nullable();
             $table->timestamps();
         });

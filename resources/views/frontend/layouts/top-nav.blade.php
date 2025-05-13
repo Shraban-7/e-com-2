@@ -53,21 +53,34 @@
                 </div>
             </div>
 
+            <!-- Cart Drawer -->
+            <div class="drawer drawer-end z-50">
+                <input id="cart-drawer" type="checkbox" class="drawer-toggle" />
 
-            <!-- Cart -->
-            <button class="btn btn-ghost btn-circle hover:bg-primary-100 transition-colors text-white hover:text-neutral-900">
-                <div class="indicator">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                    </svg>
-                    <span class="badge badge-sm bg-primary-500 text-white indicator-item">3</span>
+                <!-- Trigger / Content Area -->
+                <div class="drawer-content">
+                    <!-- Button to open drawer -->
+                    <label for="cart-drawer"
+                        class="btn btn-ghost btn-circle hover:bg-primary-100 transition-colors text-white hover:text-neutral-900 cursor-pointer">
+                        <div class="indicator">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                        </svg>
+                            <span class="badge badge-sm bg-primary-500 text-white indicator-item">3</span>
+                        </div>
+                    </label>
                 </div>
-            </button>
+
+                <!-- Drawer Side (MUST be sibling of drawer-content) -->
+                @include('frontend.includes.cart-offcanvas')
+            </div>
+
 
             <!-- Wishlist -->
-            <button class="btn btn-ghost btn-circle hover:bg-primary-100 transition-colors text-white hover:text-neutral-900">
+            <button
+                class="btn btn-ghost btn-circle hover:bg-primary-100 transition-colors text-white hover:text-neutral-900">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -85,7 +98,8 @@
         <label for="mobile-drawer" class="drawer-overlay"></label>
         <div class="menu p-4 w-80 h-full bg-white text-neutral-900 relative">
             <!-- Close Drawer -->
-            <label for="mobile-drawer" class="absolute top-4 right-4 text-neutral-600 hover:text-neutral cursor-pointer">
+            <label for="mobile-drawer"
+                class="absolute top-4 right-4 text-neutral-600 hover:text-neutral cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

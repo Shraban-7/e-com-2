@@ -23,5 +23,6 @@
         height: auto;
     }
 
-    
-
+    .swiper-slide-thumb-active .slide-thumb {
+        border: 2px solid var(--color-primary-500) !important;
+    }
